@@ -2,14 +2,15 @@
 <odoo>
 
     <record id="view_product_template_tiendoo" model="ir.ui.view">
-        <field name="name">product.template.tiendoo</field>
-        <field name="model">product.template</field>
+        <field name="name">product.template.intermediate</field>
+        <field name="model">product.intermediateinfo</field>
         <field name="inherit_id" ref="account.product_template_form_view"/>
         <field name="arch" type="xml">
 
-            <xpath expr='//field[@name="taxes_id"]' position="after">
-                <field name="liquido_producto"/>
-            </xpath>
-        </field>
+        <page string="Comisiones Intermediarios" name="intermediarys" attrs="{'invisible': [('purchase_ok','=',False)]}" invisible="1">
+            <group name="purchase">
+                <group string="Vendor Bills" name="bill"/>
+            </group>
+        </page>
     </record>
 </odoo>

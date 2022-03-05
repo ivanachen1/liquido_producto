@@ -24,10 +24,10 @@
 ##############################################################################
 
 {
-    "name": "Campos Tiendoo",
+    "name": "Liquido Producto",
     "version": "1.0",
-    'author': 'Persiscal Consulting',
-    "summary": """Modificación de alta de artículos para Tiendoo""",
+    'author': 'Ivan Achenbach',
+    "summary": """Creacion Logica liquido producto""",
     "license": "AGPL-3",
     "depends": ['product','account'],
     "data": [
