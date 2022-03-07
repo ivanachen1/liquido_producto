@@ -3,37 +3,23 @@
 <?xml version="1.0"?>
 <odoo>
     <record id="view_product_template_tiendoo" model="ir.ui.view">
-        <field name="name">product.template.tiendoo</field>
+        <field name="name">product.template.intermediate</field>
         <field name="model">product.template</field>
-        <field name="inherit_id" ref="product_template_form_view"/>
+        <field name="inherit_id" ref="product.product_template_form_view"/> 
         <field name="arch" type="xml">
 
             <xpath expr='//field[@name="is_sale"]' position="after">
                 <field name="liquido_producto"/>
             </xpath>
+            <xpath expr='//page[@name="inventory"]' position="after">
+                <page name="intermediate" string="Intermediario">
+                   <field name="intermediate_ids"/>
+                </page>
+            </xpath>
         </field>
     </record>
-</odoo>
 
 
-<!-- creation page intermediate -->
-
-<?xml version="1.0"?>
-<odoo>
-    <record id="view_product_template_intermediate_base" model="ir.ui.view">
-        <field name="name">product.template.intermediate.base</field>
-        <field name="model">product.intermediateinfo</field>
-        <field name="inherit_id" ref="product_template_form_view"/>
-        <field name="arch" type="xml">
-        <page string="Comisiones Intermediarios" name="intermediarys" attrs="{'invisible': [('liquido_producto','=',False)]}" invisible="1">
-            <group name="intermediate">
-                <group string="Vendor Bills" name="bill"/>
-            </group>
-        </page>
-    </record>
-</odoo>
-
-    <!-- ¿como asigno los elementos de intermediate.py en la vista form de abajo? -->
 
 <record id="product_intermediate_form_view" model="ir.ui.view">
             <field name="name">product.intermediate.form.view</field>
@@ -74,56 +60,7 @@
             </field>
         </record>
 
-        <record id="product_supplierinfo_search_view" model="ir.ui.view">
-            <field name="name">product.supplierinfo.search.view</field>
-            <field name="model">product.supplierinfo</field>
-            <field name="arch" type="xml">
-                <search string="Vendor">
-                    <field name="name"/>
-                    <field name="product_tmpl_id"/>
-                    <filter string="Active" name="active" domain="['|', ('date_end', '=', False), ('date_end', '&gt;=',  (context_today() - datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d'))]"/>
-                    <filter string="Archived" name="archived" domain="[('date_end', '&lt;',  (context_today() - datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d'))]"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Product" name="groupby_product" domain="[]" context="{'group_by': 'product_tmpl_id'}"/>
-                        <filter string="Vendor" name="groupby_vendor" domain="[]" context="{'group_by': 'name'}"/>
-                    </group>
-                </search>
-            </field>
-        </record>
 
-        <record id="product_supplierinfo_view_kanban" model="ir.ui.view">
-            <field name="name">product.supplierinfo.kanban</field>
-            <field name="model">product.supplierinfo</field>
-            <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile">
-                    <field name="min_qty"/>
-                    <field name="delay"/>
-                    <field name="price"/>
-                    <field name="name"/>
-                    <field name="currency_id"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click">
-                                <div class="row mb4">
-                                    <strong class="col-6">
-                                        <span t-esc="record.name.value"/>
-                                    </strong>
-                                    <strong class="col-6 text-right">
-                                        <strong><field name="price" widget="monetary"/></strong>
-                                    </strong>
-                                    <div class="col-6">
-                                        <span t-esc="record.min_qty.value"/>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <span t-esc="record.delay.value"/> days
-                                    </div>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
 
         <record id="product_supplierinfo_tree_view" model="ir.ui.view">
             <field name="name">product.supplierinfo.tree.view</field>
@@ -150,10 +87,15 @@
             </field>
         </record>
 
-    <record id="product_supplierinfo_type_action" model="ir.actions.act_window">
-        <field name="name">Vendor Pricelists</field>
+
+<record id="product_intermediateinfo_type_action" model="ir.actions.act_window">
+        <field name="name">intermediate profit</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">product.supplierinfo</field>
-        <field name="view_mode">tree,form,kanban</field>
-        <field name="context">{'visible_product_tmpl_id':False}</field>
-    </record>
+        <field name="res_model">product.intermediateinfo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+</record>
+
+<!-- Creacion vista tipo memu -->
+
+</odoo>
